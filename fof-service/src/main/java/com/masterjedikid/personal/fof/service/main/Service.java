@@ -50,8 +50,8 @@ public class Service {
         // Wait until all threads are finish
         executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         System.out.println("***Sorting " + memberData.getMemberData().size() + " Members***");
-//        System.out.println("***Play Times***");
-//        System.out.println(Sorters.sortPlayTime(memberData));
+        System.out.println("***Play Times***");
+        System.out.println(Sorters.sortPlayTime(memberData));
 //        
 //        System.out.println("***Normal VoG Raid Times***");
 //        System.out.println(Sorters.sortNMVog(memberData));
@@ -64,8 +64,8 @@ public class Service {
 //        
 //        System.out.println("\n***Hard CE Raid Times***");
 //        System.out.println(Sorters.sortHMCE(memberData));
-        System.out.println("***Suicides***");
-        System.out.println(Sorters.sortSuicides(memberData));
+//        System.out.println("***Suicides***");
+//        System.out.println(Sorters.sortSuicides(memberData));
     }
     
     

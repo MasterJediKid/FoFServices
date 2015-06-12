@@ -58,6 +58,12 @@ public class MemberCharacters {
             System.out.println(charID);
         }
     }
+    
+    public void addPlayTime(Long time) {
+        synchronized (this) {
+            playTime += time;
+        }
+    }
         
     public void addNormCETime(Long time) {
         synchronized (this) {
@@ -90,20 +96,7 @@ public class MemberCharacters {
     }
     
     public Long getPlayTime() {
-        long totalTime = 0L;
-        
-        try {
-            JSONArray characterArray = new JSONObject(BungieDotNetEndpoints.getMemberDataByMemberId(memberID)).getJSONArray("characters"); 
-
-            for(int i = 0; i < characterArray.length(); i++) {
-                totalTime += characterArray.getJSONObject(i).getJSONObject("characterBase").getInt("minutesPlayedTotal") / 60;
-            }
-        }
-        catch(Exception ex) {
-            System.out.println("Problem pulling PlayTime");
-        }
-        
-        return totalTime;
+        return playTime;
     }
     
     public Long getNormCETime() {
@@ -123,6 +116,6 @@ public class MemberCharacters {
     }
     
     public Long getSuicides() {
-        return hardVoGTotalTime;
+        return suicides;
     }
 }
