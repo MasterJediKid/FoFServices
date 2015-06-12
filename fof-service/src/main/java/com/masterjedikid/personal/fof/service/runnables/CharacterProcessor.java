@@ -24,5 +24,7 @@ public class CharacterProcessor implements Runnable {
         structure.addHardVoGTime(CharacterUtils.getActivityTimeForChars(member, charID, 2659248068L));
         structure.addNormCETime(CharacterUtils.getActivityTimeForChars(member, charID, 1836893116L));
         structure.addNormVoGTime(CharacterUtils.getActivityTimeForChars(member, charID, 2659248071L));
+        
+        structure.addSuicides(CharacterUtils.getStatForChars(member, charID, "weaponKillsMelee", structure.getMemberName()));
     } 
 }

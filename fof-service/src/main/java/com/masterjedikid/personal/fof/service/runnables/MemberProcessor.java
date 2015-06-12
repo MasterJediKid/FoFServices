@@ -38,7 +38,7 @@ public class MemberProcessor implements Runnable {
         
         ExecutorService executor = Executors.newFixedThreadPool(NTHREDS);
         String memberID = BungieDotNetEndpoints.getMemberBungieId(memberName);
-        List charIDs = CharacterUtils.getMemberCharIDs(memberID);
+        List charIDs = CharacterUtils.getMemberCharIDs(memberName, memberID);
         int charCount = charIDs.size();
         MemberCharacters chars = new MemberCharacters(memberName, memberID, charIDs);
         

@@ -1,11 +1,17 @@
 
 package com.masterjedikid.personal.fof.service.main;
 
+import com.masterjedikid.personal.fof.service.datastructures.MemberCharacters;
 import com.masterjedikid.personal.fof.service.datastructures.MemberList;
 import com.masterjedikid.personal.fof.service.runnables.MemberProcessor;
 import com.masterjedikid.personal.fof.service.utils.BungieDotNetEndpoints;
+import com.masterjedikid.personal.fof.service.utils.Sorters;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -29,9 +35,9 @@ public class Service {
         
         ExecutorService executor = Executors.newFixedThreadPool(NTHREDS);
 //        List<String> members = getClanMemberList("The%20Federation%20of%20Fathers");
-        //List<String> members = getSlackMemberList(token);
-        List<String> members = new ArrayList();
-        members.add("Master JediKid");
+        List<String> members = getSlackMemberList(token);
+//        List<String> members = new ArrayList();
+//        members.add("Adm Wright Meow");
         memberData = new MemberList(members);
         
         for (int i = 0; i < members.size(); i++) {
@@ -43,9 +49,26 @@ public class Service {
         
         // Wait until all threads are finish
         executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-        System.out.println("Finished all threads");
-        memberData.print();
+        System.out.println("***Sorting " + memberData.getMemberData().size() + " Members***");
+//        System.out.println("***Play Times***");
+//        System.out.println(Sorters.sortPlayTime(memberData));
+//        
+//        System.out.println("***Normal VoG Raid Times***");
+//        System.out.println(Sorters.sortNMVog(memberData));
+//        
+//        System.out.println("\n***Hard VoG Raid Times***");
+//        System.out.println(Sorters.sortHMVog(memberData));
+//        
+//        System.out.println("\n***Normal CE Raid Times***");
+//        System.out.println(Sorters.sortNMCE(memberData));
+//        
+//        System.out.println("\n***Hard CE Raid Times***");
+//        System.out.println(Sorters.sortHMCE(memberData));
+        System.out.println("***Suicides***");
+        System.out.println(Sorters.sortSuicides(memberData));
     }
+    
+    
     
     public static List<String> getSlackMemberList(String token) {
         return getSlackMemberNames(new JSONObject(new RestTemplate().getForObject("https://slack.com/api/users.list?token=" + token, String.class)).getJSONArray("members"));

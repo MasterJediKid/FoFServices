@@ -21,6 +21,8 @@ public class MemberCharacters {
     private Long hardVoGTotalTime = 0L;
     private Long playTime = 0L;
     
+    private Long suicides = 0L;
+    
     public MemberCharacters(String memberName, String memberID, List<String> charactersIDs) {
         this.memberName = memberName;
         this.memberID = memberID;
@@ -81,6 +83,12 @@ public class MemberCharacters {
         }
     }
     
+    public void addSuicides(Long deaths) {
+        synchronized (this) {
+            suicides += deaths;
+        }
+    }
+    
     public Long getPlayTime() {
         long totalTime = 0L;
         
@@ -111,6 +119,10 @@ public class MemberCharacters {
     }
     
     public Long getHardVoGTime() {
+        return hardVoGTotalTime;
+    }
+    
+    public Long getSuicides() {
         return hardVoGTotalTime;
     }
 }

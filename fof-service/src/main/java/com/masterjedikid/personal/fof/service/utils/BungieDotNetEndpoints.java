@@ -26,7 +26,7 @@ public class BungieDotNetEndpoints {
     
     public static String getMemberBungieId(String gamerTag) throws Exception {
         HttpClient client = new DefaultHttpClient();
-        HttpGet get = new HttpGet("http://www.bungie.net/Platform/Destiny/TigerXbox/Stats/GetMembershipIdByDisplayName/" + gamerTag.replace(" ", "%20"));
+        HttpGet get = new HttpGet("http://www.bungie.net/Platform/Destiny/TigerXbox/Stats/GetMembershipIdByDisplayName/" + gamerTag.replace(" ", "%20") + "/?ignorecase=true");
         
         return getResponseString(client.execute(get));
     }
@@ -48,6 +48,15 @@ public class BungieDotNetEndpoints {
         return data.toString();
     }
     
+    public static String getStatsForCharacter(String memberId, String characterId) throws Exception {
+        HttpClient client = new DefaultHttpClient();
+        HttpGet get = new HttpGet("http://www.bungie.net/platform/destiny/Stats/TigerXbox/" + memberId + "/" + characterId); //+ "/?definitions=true");
+        
+
+        JSONObject data = new JSONObject(getResponseString(client.execute(get)));
+        return data.toString();
+    }
+    
     public static String getActivityHistoryForCharacter(String memberId, String characterId) throws Exception {
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet("http://www.bungie.net/platform/Destiny/Stats/ActivityHistory/TigerXbox/" + memberId + "/" + characterId); //+ "/?definitions=true");
@@ -59,6 +68,12 @@ public class BungieDotNetEndpoints {
     
     public static String getResponseString(HttpResponse response) throws Exception {
         JSONObject user = new JSONObject(IOUtils.toString(response.getEntity().getContent())); 
-        return user.get("Response").toString();
+        try {
+            return user.get("Response").toString();
+        }
+        catch(Exception ex) {
+            System.out.println("getResponseString() error data returned : " + user);
+            throw new Exception();
+        }
     }
 }

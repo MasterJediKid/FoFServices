@@ -27,8 +27,31 @@ public class CharacterUtils {
         
         return 0L;
     }
+    
+    public static Long getStatForChars(String memberID, String charID, String stat, String memberName){
+
+        Long statTotal = 0L;
+        try {
+            JSONObject response  = new JSONObject(BungieDotNetEndpoints.getStatsForCharacter(memberID, charID));
+            if(response.getJSONObject("story").has("allTime"))
+                statTotal += response.getJSONObject("story").getJSONObject("allTime").getJSONObject(stat).getJSONObject("basic").getLong("value");
+            if(response.getJSONObject("raid").has("allTime"))
+                statTotal += response.getJSONObject("raid").getJSONObject("allTime").getJSONObject(stat).getJSONObject("basic").getLong("value");
+            if(response.getJSONObject("patrol").has("allTime"))
+                statTotal += response.getJSONObject("patrol").getJSONObject("allTime").getJSONObject(stat).getJSONObject("basic").getLong("value");
+            if(response.getJSONObject("allPvP").has("allTime"))
+                statTotal += response.getJSONObject("allPvP").getJSONObject("allTime").getJSONObject(stat).getJSONObject("basic").getLong("value");
+            if(response.getJSONObject("allStrikes").has("allTime"))
+                statTotal += response.getJSONObject("allStrikes").getJSONObject("allTime").getJSONObject(stat).getJSONObject("basic").getLong("value");
+        }
+        catch(Exception ex) {
+            System.out.println("Problem with stat pull for " + memberName + " : " + ex);
+        }  
         
-    public static List<String> getMemberCharIDs(String idHash) {       
+        return statTotal;
+    }
+        
+    public static List<String> getMemberCharIDs(String memberName, String idHash) {       
         List<String> characters = new ArrayList();         
         JSONArray characterArray;
         String character;   
@@ -38,7 +61,7 @@ public class CharacterUtils {
              characterArray = new JSONObject(BungieDotNetEndpoints.getMemberDataByMemberId(idHash)).getJSONArray("characters");                   
         }
         catch(Exception ex) {
-            System.out.println("Problem with pulling character data: " + ex);
+            System.out.println("Problem with pulling character data for " + memberName + " : " + ex);
             return characters;
         }
 
